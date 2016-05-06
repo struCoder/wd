@@ -14,60 +14,60 @@
 package wd
 
 import (
-	"bytes"
-	"fmt"
-	"strings"
-	"unicode"
+  "bytes"
+  "fmt"
+  "strings"
+  "unicode"
 )
 
 func allWhitespace(s string) bool {
-	for _, r := range s {
-		if !unicode.IsSpace(r) {
-			return false
-		}
-	}
-	return true
+  for _, r := range s {
+    if !unicode.IsSpace(r) {
+      return false
+    }
+  }
+  return true
 }
 
 func tokenize(s string) (tokens []string) {
-	var buf bytes.Buffer
-	previousIsLetter := false
-	previousIsSpace := false
-	for _, r := range s {
-		isSpace := unicode.IsSpace(r)
-		isLetter := !isSpace && unicode.IsLetter(r)
-		if isLetter != previousIsLetter || isSpace != previousIsSpace {
-			if buf.Len() > 0 {
-				tokens = append(tokens, buf.String())
-				buf.Reset()
-			}
-		}
-		buf.WriteRune(r)
-		previousIsLetter = isLetter
-		previousIsSpace = isSpace
-	}
+  var buf bytes.Buffer
+  previousIsLetter := false
+  previousIsSpace := false
+  for _, r := range s {
+    isSpace := unicode.IsSpace(r)
+    isLetter := !isSpace && unicode.IsLetter(r)
+    if isLetter != previousIsLetter || isSpace != previousIsSpace {
+      if buf.Len() > 0 {
+        tokens = append(tokens, buf.String())
+        buf.Reset()
+      }
+    }
+    buf.WriteRune(r)
+    previousIsLetter = isLetter
+    previousIsSpace = isSpace
+  }
 
-	if buf.Len() > 0 {
-		tokens = append(tokens, buf.String())
-	}
-	return
+  if buf.Len() > 0 {
+    tokens = append(tokens, buf.String())
+  }
+  return
 }
 
 func numberOfDigits(num int) int {
-	n := 1
-	for num > 9 {
-		num /= 10
-		n++
-	}
-	return n
+  n := 1
+  for num > 9 {
+    num /= 10
+    n++
+  }
+  return n
 }
 
 // NumberLines numbers lines in a string
 func NumberLines(str string) string {
-	lines := strings.Split(str, "\n")
-	numpad := numberOfDigits(len(lines))
-	for i, s := range lines {
-		lines[i] = fmt.Sprintf("%*d | %s", numpad, i+1, s)
-	}
-	return strings.Join(lines, "\n")
+  lines := strings.Split(str, "\n")
+  numpad := numberOfDigits(len(lines))
+  for i, s := range lines {
+    lines[i] = fmt.Sprintf("%*d | %s", numpad, i+1, s)
+  }
+  return strings.Join(lines, "\n")
 }
